@@ -8,9 +8,10 @@ table = dynamodb.Table(store_table_name)
 
 def handler(event, context):
     # Extract itemName and quantity from the query parameters
-    params = event['queryStringParameters']
+    print(event)
+    params = event['item']
     itemName = params['itemName']
-    quantity = int(params['quantity'])
+    quantity = params['quantity']
 
     # Retrieve the item from DynamoDB
     response = table.get_item(Key={'PK': 'StoreItem', 'SK': itemName})
@@ -21,9 +22,9 @@ def handler(event, context):
         if item_quantity >= quantity:
             message = f'{itemName} is in stock.'
         else:
-            message = f'{itemName} is out of stock.'
+            raise Exception(f'{itemName} is out of stock.')
     else:
-        message = f'{itemName} does not exist.'
+        raise Exception(f'{itemName} does not exist.')
 
     response = {
         'statusCode': 200,

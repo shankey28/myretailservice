@@ -10,7 +10,7 @@ def handler(event, context):
     # Extract itemName and quantity from the event JSON
     body = json.loads(event['body'])
     itemName = body['itemName']
-    quantity = body['quantity']
+    quantity = int(body['quantity'])
     
     # Store the values in DynamoDB
     item = {

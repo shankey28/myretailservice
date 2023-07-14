@@ -8,9 +8,7 @@ store_table_name = os.environ['STORE_TABLE_NAME']
 table = dynamodb.Table(store_table_name)
 
 def handler(event, context):
-    # Extract the array of items from the event JSON
-    body = json.loads(event['body'])
-    items = body['items']
+    print(event)
 
     # Generate a random UUID as the SK for the order
     order_id = str(uuid.uuid4())
@@ -19,7 +17,7 @@ def handler(event, context):
     item = {
         'PK': 'Order',
         'SK': order_id,
-        'order': items
+        'order': event
     }
 
     # Store the order in DynamoDB
